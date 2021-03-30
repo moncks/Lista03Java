@@ -3,15 +3,10 @@ package br.com.devinhouse.exercicios12a14.models;
 public class FuncionarioHorista extends Funcionario {
 	private double horas, valorHora;
 	
-	public FuncionarioHorista(String nome, String sobrenome, double horas, double valorHora) {
-		super(nome, sobrenome);
-		if (horas >= 0 && horas <= 168) {
-			this.horas = horas;
-		};
-		if (valorHora > 0) {
-			this.valorHora = valorHora;
-		}
-		
+	public FuncionarioHorista(String nome, String sobrenome, String dataNascimento, double horas, double valorHora) {
+		super(nome, sobrenome, dataNascimento);
+		this.horas = validarHora(horas);
+		this.valorHora = validarValorPositivo(valorHora);
 	}
 
 	public double getHoras() {
@@ -32,6 +27,13 @@ public class FuncionarioHorista extends Funcionario {
 		if (valorHora > 0) {
 			this.valorHora = valorHora;
 		}
+	}
+	
+	private double validarHora(double valor) {
+		if (valor >= 0 && valor <= 168) {
+			return valor;
+		}
+		return 0;
 	}
 	
 	@Override

@@ -3,16 +3,10 @@ package br.com.devinhouse.exercicios12a14.models;
 public class FuncionarioComissionado extends Funcionario {
 	private double vendas, taxaComissao;
 	
-	public FuncionarioComissionado(String nome, String sobrenome, double vendas, double taxaComissao) {
-		super(nome, sobrenome);
-		if(vendas < 0) {
-			this.vendas = 0;
-		}
-		this.vendas = vendas;
-		
-		if(taxaComissao > 0 && taxaComissao < 1) {
-			this.taxaComissao = taxaComissao;
-		}
+	public FuncionarioComissionado(String nome, String sobrenome, String dataNascimento, double vendas, double taxaComissao) {
+		super(nome, sobrenome, dataNascimento);
+		this.vendas = validarValorPositivo(vendas);
+		this.taxaComissao = validarPercentual(taxaComissao);
 	}
 
 	public double getVendas() {
@@ -20,24 +14,27 @@ public class FuncionarioComissionado extends Funcionario {
 	}
 
 	public void setVendas(double vendas) {
-		this.vendas = vendas;
+		this.vendas = validarValorPositivo(vendas);
 	}
 
 	public double getTaxaComissao() {
 		return taxaComissao;
 	}
 
-	public boolean setTaxaComissao(double taxaComissao) {
-		if(taxaComissao < 0 || taxaComissao > 1) {
-			return false;
+	public void setTaxaComissao(double taxaComissao) {
+		this.taxaComissao = validarPercentual(taxaComissao);
+	}
+	
+	private double validarPercentual(double valor) {
+		if(valor > 0 && valor < 1) {
+			return valor;
 		}
-		this.taxaComissao = taxaComissao;
-		return true;
+		return 0;
 	}
 	
 	@Override
 	public double calcularSalarioMensal() {
-		return taxaComissao * vendas;
+		return this.taxaComissao * this.vendas;
 	}
 	
 	@Override
